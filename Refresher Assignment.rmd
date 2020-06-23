@@ -1,0 +1,93 @@
+---
+output:
+  word_document: default
+  html_document: default
+---
+```{r}
+library("tidyverse")
+```
+
+```{r}
+diamonddata=diamonds
+summarize(diamonddata)
+NROW(diamonddata)
+NCOL(diamonddata)
+summary(diamonddata)
+```
+
+# 53,940 ROWS AND 10 COLUMNS
+
+
+
+```{r}
+ggplot(data = diamonddata, aes(x = carat,y = price, label = color))+
+geom_point()+ 
+  labs (title = "Plot of Cost per Carat", x = "Carat", y = "Price", color = "carat")+
+  scale_y_continuous(name="Price (in $)", labels = scales::comma)
+
+```
+# From above sctterplot I observe that as the carat size goes up so does the cost of the carat.
+
+```{r}
+ggplot(data = diamonddata, aes(x = carat,y = price, label = cut, color = cut))+
+geom_point()+ 
+  labs (title = "Plot of Cost per Carat", x = "Carat", y = "Price", color = "cut")+
+  scale_y_continuous(name="Price (in $)", labels = scales::comma)
+
+```
+
+
+# As per the plot above I can observe that as the prices go up so does the type of cut and the size of the carat
+
+
+```{r}
+ggplot(data = diamonddata, aes(x = carat,y = price, label = cut, color = cut))+
+geom_point()+ 
+  labs (title = "Plot of Cost per Carat", x = "Carat", y = "Price", color = "cut")+
+  facet_wrap(~color)+
+  scale_y_continuous(name="Price (in $)", labels = scales::comma)
+```
+
+# From plot above I observe that as the cut that is very good and premium has higher prices and higher carat sizes too.
+
+```{r}
+library(readr)
+InventoryData <- read_csv("InventoryData.csv")
+View(InventoryData)
+inventory<-InventoryData
+view(inventory)
+```
+
+
+
+```{r}
+summary(inventory)
+```
+
+```{r}
+inventoryA<-inventory %>%
+  select(`Item SKU`, Supplier, `Cost per Unit ($)`, `On Hand`, `Annual Demand`)
+```
+# 13561 rows in this new dataset
+
+```{r}
+inventoryA = mutate(inventoryA, OnHandRatio = `On Hand` / `Annual Demand`)
+```
+
+# The code above creates a new variable called OnHandRatio that is a result of On Hand divided by Annual Demand
+
+```{r}
+inventoryA<-inventoryA %>%
+rename(x = `Cost per Unit ($)`)
+```
+
+
+
+## Below is my R code for task 9. I wasn’t able to add it to the rmd file as it wouldn’t knit to word with an error. Hate to lose that point but I tried everything including renaming the Cost per Unit ($) variable because I thought the dollar sign was a problem 
+
+## avg_cost<-inventoryA %>%
+##    summarize(SKUAvgCost = mean(x)) %>%
+##    mutate(SKUAvgCost = mean(x) / `Item SKU`) %>%
+##  select(`SKUAvgCost`, `Item SKU`)
+
+## I find these concepts quite challenging to me; mutate, arrange, select, group_by etc. and the formatting of a plot so its easier to read. One step at a time though.
